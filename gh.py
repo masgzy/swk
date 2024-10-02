@@ -72,8 +72,7 @@ def download_file(link, title):
 
 def download_worker(link, title, executor):
     """下载工作线程"""
-    with executor:
-        download_file(link, title)
+    download_file(link, title)
 
 def scrape_site(base_urls):
     """抓取网站中的下载链接"""
