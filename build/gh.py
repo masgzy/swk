@@ -112,5 +112,5 @@ def scrape_site(base_urls):
 
 if __name__ == "__main__":
     clear_screen()
-    base_urls = ['http://siwake.cc/']
+    base_urls = ['http://siwake.cc/baisi-v9l.html']
     scrape_site(base_urls)
