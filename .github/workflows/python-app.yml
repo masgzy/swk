@@ -1,4 +1,4 @@
-name: Install, Download, and Compress
+name: Install, Download, 和 Compress
 
 on: [push]  # 或者其他触发条件
 
@@ -8,7 +8,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3  # 更新到最新版本
+      uses: actions/checkout@v3
 
     - name: Install dependencies
       run: python install.py
@@ -18,10 +18,15 @@ jobs:
       working-directory: ./build
 
     - name: Compress files
-      run: tar -czvf downloaded-files.tar.gz -C ./build .
+      run: tar -czvf ./build/downloaded-files.tar.gz -C ./build/ .
+
+    - name: Check file existence
+      run: ls -l ./build/downloaded-files.tar.gz
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@v3  # 更新到最新版本
+      uses: actions/upload-artifact@v3
       with:
         name: compressed-files
-        path: ./build/downloaded-files.tar.gz  # 确保路径正确
+        path: ./build/downloaded-files.tar.gz
+        if-no-files-found: warn
+        include-hidden-files: false
