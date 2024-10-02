@@ -1,4 +1,4 @@
-name: Install, Download, 和 Compress
+name: Install, Download, and Compress
 
 on: [push]  # 或者其他触发条件
 
@@ -8,20 +8,20 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3  # 更新到最新版本
 
     - name: Install dependencies
       run: python install.py
-     
+
     - name: Download files
       run: python gh.py
       working-directory: ./build
 
     - name: Compress files
-      run: tar -czvf downloaded-files.tar.gz -C ./path/to/downloaded/files .
+      run: tar -czvf downloaded-files.tar.gz -C ./build .
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3  # 更新到最新版本
       with:
         name: compressed-files
-        path: downloaded-files.tar.gz
+        path: ./build/downloaded-files.tar.gz  # 确保路径正确
