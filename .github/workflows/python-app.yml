@@ -17,16 +17,14 @@ jobs:
       run: python gh.py
       working-directory: ./build
 
+    - name: Wait for files to settle
+      run: sleep 30  # 等待10秒，确保所有文件下载完成
+
     - name: Compress files
       run: tar -czvf ./build/downloaded-files.tar.gz -C ./build/ .
-
-    - name: Check file existence
-      run: ls -l ./build/downloaded-files.tar.gz
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
       with:
         name: compressed-files
         path: ./build/downloaded-files.tar.gz
-        if-no-files-found: warn
-        include-hidden-files: false
