@@ -9,6 +9,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
+      with:
+        fetch-depth: 1
 
     - name: Install dependencies
       run: python install.py
@@ -17,18 +19,17 @@ jobs:
       run: python gh.py
       working-directory: ./build
 
-    - name: Wait for files to settle
-      run: sleep 10  # 等待10秒，确保所有文件下载完成
-
-    - name: Sync files 和 Compress
+    - name: Clean up
       run: |
-        # 使用 rsync 同步文件到一个临时目录
-        rsync -avz --progress ./build/ /tmp/build-sync/
-        # 切换到临时目录并压缩文件
-        cd /tmp/build-sync/
-        tar -czvf /tmp/downloaded-files.tar.gz .
-        # 将压缩文件移回原来的位置
-        mv /tmp/downloaded-files.tar.gz $GITHUB_WORKSPACE
+        # 删除不需要的文件或目录
+        rm -rf ./some/unnecessary/directory
+        # 清理临时文件
+        sudo apt-get clean
+        # 列出文件以检查当前磁盘使用情况
+        df -h
+
+    - name: Compress files
+      run: tar -czvf downloaded-files.tar.gz -C ./build .
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
